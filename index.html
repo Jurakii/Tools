@@ -131,6 +131,7 @@ nav {
 }
 </style>
 </head>
+
 <script>
 
 const tabs = {
@@ -139,19 +140,22 @@ const tabs = {
             image: "images/renamer.jpg",
             title: "Batch Rename",
             desc: "Super simple UI based batch renamer",
-            download: "https://github.com/Jurakii/BatchRename/releases"
+            download: "https://github.com/Jurakii/BatchRename/releases",
+            buttonText: "Github"
         },
         {
             image: "images/exporter.jpg",
             title: "Quick Dir",
             desc: "Create directories with selectable layouts for your classes / projects",
-            download: "https://github.com/Jurakii/QuickDir/releases"
+            download: "https://github.com/Jurakii/QuickDir/releases",
+            buttonText: "Github"
         },
         {
             image: "images/rigtool.jpg",
             title: "Rig Helper",
             desc: "Creates controls and rig structures with one click.",
-            download: "#"
+            download: "#",
+            buttonText: "Coming Soon"
         }
     ],
 
@@ -160,13 +164,15 @@ const tabs = {
             image: "images/game1.jpg",
             title: "Space Shooter",
             desc: "Small arcade shooter project.",
-            download: "#"
+            download: "scripts/BatchRename.mel",
+            buttonText: "Download"
         },
         {
             image: "images/game2.jpg",
             title: "Dungeon Crawl",
             desc: "Top-down dungeon prototype.",
-            download: "#"
+            download: "#",
+            buttonText: "View"
         }
     ],
 
@@ -175,8 +181,9 @@ const tabs = {
             image: "images/misc1.jpg",
             title: "Website Template",
             desc: "Simple responsive template.",
-            download: "#"
-        }   
+            download: "#",
+            buttonText: "View"
+        }
     ]
 };
 
@@ -189,7 +196,12 @@ function loadTab(tabName, button) {
 
     const grid = document.getElementById("toolsGrid");
 
-    grid.innerHTML = tabs[tabName].map(item => `
+    grid.innerHTML = tabs[tabName].map(item => {
+        const isUrl =
+            item.download.startsWith("http://") ||
+            item.download.startsWith("https://");
+
+        return `
         <div class="tool-card">
             <img src="${item.image}" class="tool-image">
 
@@ -198,16 +210,18 @@ function loadTab(tabName, button) {
                 <p>${item.desc}</p>
 
                 <div class="buttons">
-                    <a href="${item.download}" target="_blank"
+                    <a href="${item.download}"
+                       ${isUrl ? 'target="_blank"' : 'download'}
                        class="btn btn-primary">
-                       Download
+                       ${item.buttonText || "Download"}
                     </a>
 
                     <a href="#" class="btn">Docs</a>
                 </div>
             </div>
         </div>
-    `).join("");
+        `;
+    }).join("");
 }
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -216,6 +230,7 @@ window.addEventListener("DOMContentLoaded", () => {
         document.querySelector(".tab-btn.active")
     );
 });
+
 </script>
 
 <body>
@@ -225,7 +240,7 @@ window.addEventListener("DOMContentLoaded", () => {
     <p>Some Projects / Tools im working on</p>
     <nav>
     <button class="tab-btn active" onclick="loadTab('tools', this)">Tools</button>
-    <button class="tab-btn" onclick="loadTab('games', this)">Games</button>
+    <button class="tab-btn" onclick="loadTab('scripts', this)">Games</button>
     <button class="tab-btn" onclick="loadTab('misc', this)">Misc</button>
     </nav>
 </header>
