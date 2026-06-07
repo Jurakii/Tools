@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Poop Fart</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #1e1e1e;
+    color: #e0e0e0;
+    font-family: Arial, sans-serif;
+    line-height: 1.5;
+}
+
+header {
+    padding: 40px 20px;
+    text-align: center;
+    border-bottom: 1px solid #333;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+header p {
+    color: #999;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.tool-card {
+    background: #2a2a2a;
+    border: 1px solid #3a3a3a;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.tool-image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    background: #333;
+}
+
+.tool-content {
+    padding: 20px;
+}
+
+.tool-content h2 {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.tool-content p {
+    color: #aaa;
+    margin-bottom: 20px;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    text-decoration: none;
+    padding: 10px 14px;
+    border-radius: 4px;
+    background: #444;
+    color: white;
+    font-size: 14px;
+}
+
+.btn:hover {
+    background: #555;
+}
+
+.btn-primary {
+    background: #4f7cff;
+}
+
+.btn-primary:hover {
+    background: #648cff;
+}
+
+footer {
+    text-align: center;
+    padding: 40px;
+    color: #777;
+}
+
+nav {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.tab-btn {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 4px;
+    background: #333;
+    color: white;
+    cursor: pointer;
+}
+
+.tab-btn:hover {
+    background: #444;
+}
+
+.tab-btn.active {
+    background: #4f7cff;
+}
+</style>
+</head>
+<script>
+
+const tabs = {
+    tools: [
+        {
+            image: "images/renamer.jpg",
+            title: "Batch Rename",
+            desc: "Super simple UI based batch renamer",
+            download: "https://github.com/Jurakii/BatchRename/releases"
+        },
+        {
+            image: "images/exporter.jpg",
+            title: "Quick Dir",
+            desc: "Create directories with selectable layouts for your classes / projects",
+            download: "https://github.com/Jurakii/QuickDir/releases"
+        },
+        {
+            image: "images/rigtool.jpg",
+            title: "Rig Helper",
+            desc: "Creates controls and rig structures with one click.",
+            download: "#"
+        }
+    ],
+
+    scripts: [
+        {
+            image: "images/game1.jpg",
+            title: "Space Shooter",
+            desc: "Small arcade shooter project.",
+            download: "#"
+        },
+        {
+            image: "images/game2.jpg",
+            title: "Dungeon Crawl",
+            desc: "Top-down dungeon prototype.",
+            download: "#"
+        }
+    ],
+
+    misc: [
+        {
+            image: "images/misc1.jpg",
+            title: "Website Template",
+            desc: "Simple responsive template.",
+            download: "#"
+        }   
+    ]
+};
+
+function loadTab(tabName, button) {
+    document.querySelectorAll(".tab-btn").forEach(btn =>
+        btn.classList.remove("active")
+    );
+
+    button.classList.add("active");
+
+    const grid = document.getElementById("toolsGrid");
+
+    grid.innerHTML = tabs[tabName].map(item => `
+        <div class="tool-card">
+            <img src="${item.image}" class="tool-image">
+
+            <div class="tool-content">
+                <h2>${item.title}</h2>
+                <p>${item.desc}</p>
+
+                <div class="buttons">
+                    <a href="${item.download}" target="_blank"
+                       class="btn btn-primary">
+                       Download
+                    </a>
+
+                    <a href="#" class="btn">Docs</a>
+                </div>
+            </div>
+        </div>
+    `).join("");
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+    loadTab(
+        "tools",
+        document.querySelector(".tab-btn.active")
+    );
+});
+</script>
+
+<body>
+
+<header>
+    <h1>Poop Fart</h1>
+    <p>Some Projects / Tools im working on</p>
+    <nav>
+    <button class="tab-btn active" onclick="loadTab('tools', this)">Tools</button>
+    <button class="tab-btn" onclick="loadTab('games', this)">Games</button>
+    <button class="tab-btn" onclick="loadTab('misc', this)">Misc</button>
+    </nav>
+</header>
+
+<div class="container">
+    <div class="tools-grid" id="toolsGrid">
+    </div>
+</div>
+
+<footer>
+    © 2026 Nicholas Crouse
+</footer>
+
+</body>
+</html>
