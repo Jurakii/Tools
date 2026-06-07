@@ -1,0 +1,165 @@
+/*
+Batch Rename v1.0
+Create by Nicholas Crouse
+*/
+
+global proc batchRename(string $field, string $prefix, string $category, string $suffix)
+{
+    string $sel[] = `ls -sl -long`;
+
+    if (size($sel) == 0) {
+        error "Nothing selected.";
+        return;
+    }
+
+    string $groups[];
+    string $objects[];
+
+    // Separate groups and objects
+    for ($s in $sel) {
+        string $children[] = `listRelatives -children -type transform $s`;
+
+        if (size($children) > 0) {
+            $groups[size($groups)] = $s;
+        } else {
+            $objects[size($objects)] = $s;
+        }
+    }
+
+    // Error if group + other objects selected
+    if (size($groups) > 0 && size($sel) > 1) {
+        error "You have a group selected along with other objects.";
+        return;
+    }
+
+    string $targets[];
+
+    // single group selected - use children
+    if (size($groups) == 1) {
+
+        string $temp[] = `listRelatives -children -type transform -path $groups[0]`;
+
+        for ($t in $temp) {
+            if (`objExists $t`) {
+                $targets[size($targets)] = $t;
+            }
+        }
+
+        if (size($targets) == 0) {
+            error "Selected group has no valid children.";
+            return;
+        }
+    }
+    else {
+        for ($o in $objects) {
+            if (`objExists $o`) {
+                $targets[size($targets)] = $o;
+            }
+        }
+
+        if (size($targets) == 0) {
+            error "No valid objects to rename.";
+            return;
+        }
+    }
+
+    string $pre = `optionMenu -q -value $prefix`;
+    string $cat = `optionMenu -q -value $category`;
+    string $suf = `optionMenu -q -value $suffix`;
+    string $newName = `textField -q -text $field`;
+
+    if ($suf == "NONE"){
+        $suf = "";
+    } else {
+        $suf = "_" + $suf;
+    }
+
+    $targets = `ls -long $targets`;
+
+    string $grp = "";
+
+    // If group - create new group - parent
+    if (size($groups) == 1) {
+
+        string $groupName = $pre + "_" + $cat + "_" + $newName + "_GRP";
+
+        string $baseName = $groupName;
+        int $i = 1;
+
+        while (`objExists $groupName`) {
+            $groupName = $baseName + "_" + $i;
+            $i++;
+        }
+
+        $grp = `group -em -name $groupName`;
+
+        parent $targets $grp;
+
+        delete $groups;
+        
+        // refresh paths after parenting
+        $targets = `listRelatives -children -type transform -fullPath $grp`;
+    }
+
+    // Rename
+    int $count = 1;
+
+    for ($obj in $targets) {
+
+        if (!`objExists $obj`) {
+            warning ("Skipping invalid object: " + $obj + "\n");
+            continue;
+        }
+
+        string $num;
+
+        if ($count < 10)
+            $num = "0" + $count;
+        else
+            $num = $count;
+
+        string $newFullName = $pre + "_" + $cat + "_" + $newName + "_" + $num + $suf;
+
+        rename $obj $newFullName;
+
+        $count++;
+    }
+
+    if ($grp != "") {
+        print ("Created group: " + $grp + "\n");
+    }
+}
+if (`window -exists BatchRename`) deleteUI BatchRename;
+window -widthHeight 400 150
+-title "Batch Rename"
+BatchRename;
+
+rowColumnLayout -numberOfColumns 2 -columnAttach 1 "right" 0
+    -columnWidth 1 100 -columnWidth 2 250 -rowSpacing 1 10;
+
+text -label "Name";
+
+string $nameField = `textField`;
+
+text -label "Prefix";
+string $prefixDrop = `optionMenu`;
+    menuItem -label "SM";
+    menuItem -label "BP";
+    menuItem -label "VFX";
+    menuItem -label "SK";
+    
+text -label "Category";
+string $categoryDrop = `optionMenu`;
+    menuItem -label "ENV";
+    menuItem -label "PROP";
+    menuItem -label "FOL";
+
+text -label "Suffix";
+string $suffixDrop = `optionMenu`;
+    menuItem -label "NONE";
+    menuItem -label "LOW";
+    menuItem -label "HIGH";    
+    
+    button -label "Rename" -command ("batchRename \"" + $nameField + "\" \"" + $prefixDrop + "\" \"" + $categoryDrop + "\" \"" + $suffixDrop + "\"");
+
+showWindow BatchRename;
