@@ -1,8 +1,3 @@
-/*
-Batch Rename v1.0
-Create by Nicholas Crouse
-*/
-
 global proc batchRename(string $field, string $prefix, string $category, string $suffix)
 {
     string $sel[] = `ls -sl -long`;

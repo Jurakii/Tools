@@ -1,0 +1,45 @@
+//ULTIMATE UV
+//V0.1
+
+//Camera Project
+int $faceCount[] = `polyEvaluate -f`;
+int $faces = $faceCount[0] - 1;
+string $objects[] = `ls -sl`;
+
+string $selObj = ($objects[0] + ".f[0:" + $faces + "]");
+
+hilite $objects[0];
+selectMode -component;
+select -r $selObj;
+polyProjection -type Planar -md p -constructionHistory 1 $selObj;
+
+//SELECT HARD EDGES by www.playcreative.io
+///////////////////////////////////////////////////////////////
+source dagMenuProc;
+int $lowAngle = 30;
+int $highAngle = 150;
+//Change the object back to object mode, just in case it wasnï¿½t already
+toggleSelMode;
+changeSelectMode -object;
+//Store the object that is selected
+string $curSel[] = `ls -sl`;
+//Select all edges and store in an Array list
+doMenuComponentSelectionExt($curSel[0], "edge", 0);
+int $edgecount[] = `polyEvaluate -e $curSel[0]`;
+select ($curSel[0] +".e [0:" + ($edgecount[0] - 1) + "]");
+//Constrain that selection to only edges of a certain Angle
+polySelectConstraint -m 3 -a on -t 0x8000 -ab $lowAngle $highAngle;
+//Remove the selection constraint so everything back to normal
+polySelectConstraint -m 0;  
+print ("Hard edges between " + $lowAngle + " and " + $highAngle  + " degrees have been selected");
+////////////////////////////////////////////////////////////////
+
+//Cut Layout UVs
+polyMapCut -ch 1;
+select -r $selObj;
+u3dUnfold -ite 1 -p 0 -bi 1 -tf 1 -ms 1024 -rs 0 $selObj;
+texOrientShells;
+texSetTexelDensity 512 512;
+u3dLayout -res 256 -spc 0.015625 -mar 0.015625 -box 0 1 0 1 -ls 1 $selObj;
+polyNormalizeUV -normalizeType 1 -preserveAspectRatio on -centerOnTile on -normalizeDirection 0;
+

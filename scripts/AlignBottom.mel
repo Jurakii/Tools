@@ -1,0 +1,7 @@
+// Align Pivot Bottom
+string $selection[] = `ls -selection`;
+float $bbox[] = `exactWorldBoundingBox $selection[0]`;
+float $pivotY = $bbox[1];                               // Bottom Y value
+float $pivotX = ($bbox[0] + $bbox[3]) / 2;              // Center X
+float $pivotZ = ($bbox[2] + $bbox[5]) / 2;              // Center Z
+xform -piv $pivotX $pivotY $pivotZ $selection[0];

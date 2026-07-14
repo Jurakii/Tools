@@ -1,0 +1,2 @@
+print("Maya Grid");
+grid -size 12 -spacing 5 -divisions 5;

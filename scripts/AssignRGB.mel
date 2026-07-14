@@ -1,0 +1,24 @@
+// Create R G B standard surface if not already created
+if (!`objExists "R"`) {
+	string $Red = `shadingNode -asShader standardSurface -name "R"`;
+	setAttr ($Red + ".baseColor") -type double3 1 0 0;
+}
+if (!`objExists "G"`) {
+	string $Green = `shadingNode -asShader standardSurface -name "G"`;
+	setAttr ($Green + ".baseColor") -type double3 0 1 0;
+}
+if (!`objExists "B"`) {
+	string $Blue = `shadingNode -asShader standardSurface -name "B"`;
+	setAttr ($Blue + ".baseColor") -type double3 0 0 1;
+}
+// Assign RGB Shader
+string $R = "R";
+string $G = "G";
+string $B = "B";
+window -title "Assign RGB"
+assignRGB;
+    gridLayout -numberOfColumns 3 -cellWidthHeight 125 125;
+        button -label $R -command "hyperShade -assign $R;";
+        button -label $G -command "hyperShade -assign $G;";
+        button -label $B -command "hyperShade -assign $B;";
+showWindow assignRGB;
