@@ -1,0 +1,45 @@
+// Assign RGBCMY v1.0 created by Nicholas Crouse
+// Create R G B C M Y standard surface if not already created
+if (!`objExists "R"`) {
+	string $Red = `shadingNode -asShader standardSurface -name "R"`;
+	setAttr ($Red + ".baseColor") -type double3 1 0 0;
+}
+if (!`objExists "G"`) {
+	string $Green = `shadingNode -asShader standardSurface -name "G"`;
+	setAttr ($Green + ".baseColor") -type double3 0 1 0;
+}
+if (!`objExists "B"`) {
+	string $Blue = `shadingNode -asShader standardSurface -name "B"`;
+	setAttr ($Blue + ".baseColor") -type double3 0 0 1;
+}
+if (!`objExists "C"`) {
+	string $Cyan = `shadingNode -asShader standardSurface -name "C"`;
+	setAttr ($Cyan + ".baseColor") -type double3 0 1 1;
+}
+if (!`objExists "M"`) {
+	string $Magenta = `shadingNode -asShader standardSurface -name "M"`;
+	setAttr ($Magenta + ".baseColor") -type double3 1 0 1;
+}
+if (!`objExists "Y"`) {
+	string $Yellow = `shadingNode -asShader standardSurface -name "Y"`;
+	setAttr ($Yellow + ".baseColor") -type double3 1 1 0;
+}
+// Assign RGB Shader
+string $R = "R";
+string $G = "G";
+string $B = "B";
+// Yellow Cyan Magenta
+string $C = "C";
+string $M = "M";
+string $Y = "Y";
+
+window -title "Assign RGB CMY"
+assignRGB;
+    gridLayout -numberOfColumns 3 -numberOfRows 2 -cellWidthHeight 125 125;
+        button -label $R -bgc 1 0 0 -command "hyperShade -assign $R;";
+        button -label $G -bgc 0 1 0 -command "hyperShade -assign $G;";
+        button -label $B -bgc 0 0 1 -command "hyperShade -assign $B;";
+        button -label $C -bgc 0 1 1 -command "hyperShade -assign $C;";
+        button -label $M -bgc 1 0 1 -command "hyperShade -assign $M;";
+        button -label $Y -bgc 1 1 0 -command "hyperShade -assign $Y;";
+showWindow assignRGB;
