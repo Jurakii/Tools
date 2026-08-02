@@ -1,252 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>NSC Tools</title>
-        <style>
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
-            body {
-                background: #1e1e1e;
-                color: #e0e0e0;
-                font-family: Arial,sans-serif;
-            }
-            header {
-                padding: 40px 20px;
-                text-align: center;
-                border-bottom: 1px solid #333;
-            }
-            header h1 {
-                font-size: 2.5rem;
-                margin-bottom: 10px;
-            }
-            header p {
-                color: #999;
-            }
-            nav {
-                margin-top: 20px;
-                display: flex;
-                justify-content: center;
-                gap: 10px;
-                flex-wrap: wrap;
-            }
-            .tab-btn {
-                padding: 10px 16px;
-                background: #333;
-                border: none;
-                color: #fff;
-                border-radius: 4px;
-                cursor: pointer;
-            }
-            .tab-btn.active {
-                background: #4f7cff;
-            }
-            .container {
-                max-width: 1200px;
-                margin: 40px auto;
-                padding: 0 20px;
-            }
-            .tools-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
-                gap: 20px;
-            }
-            .script-card,
-            .tool-card {
-                background: #2a2a2a;
-                border: 1px solid #3a3a3a;
-                border-radius: 8px;
-                overflow: hidden;
-            }
-            .tool-image {
-                width: 100%;
-                height: 180px;
-                object-fit: cover;
-                background: #333;
-            }
-            .script-info,
-            .tool-content {
-                padding: 20px;
-            }
-            .buttons,
-            .script-buttons {
-                display: flex;
-                gap: 10px;
-            }
-            .btn {
-                text-decoration: none;
-                padding: 10px 14px;
-                border-radius: 4px;
-                background: #444;
-                color: #fff;
-                font-size: 14px;
-            }
-            .btn-primary {
-                background: #4f7cff;
-            }
-            .script-card {
-                display: flex;
-                align-items: center;
-                padding: 18px;
-                gap: 18px;
-            }
-            .script-icon-stack {
-                position: relative;
-                width: 72px;
-                height: 72px;
-                flex-shrink: 0;
-            }
-            .script-icon {
-                position: absolute;
-                width: 56px;
-                height: 56px;
-                border-radius: 10px;
-            }
-            .stack-1 .script-icon:nth-child(1) {
-                left: 8px;
-                top: 8px;
-            }
-            .stack-2 .script-icon:nth-child(1) {
-                left: 0;
-                top: 0;
-            }
-            .stack-2 .script-icon:nth-child(2) {
-                left: 20px;
-                top: 20px;
-            }
-            .stack-3 .script-icon:nth-child(1) {
-                left: 0;
-                top: 0;
-            }
-            .stack-3 .script-icon:nth-child(2) {
-                left: 10px;
-                top: 10px;
-            }
-            .stack-3 .script-icon:nth-child(3) {
-                left: 20px;
-                top: 20px;
-            }
-            footer {
-                text-align: center;
-                padding: 40px;
-                color: #777;
-            }
-        </style>
-    </head>
-    <body>
-        <header>
-            <h1 id="siteTitle"></h1>
-            <p id="siteSubtitle"></p>
-            <nav id="tabs"></nav>
-        </header>
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>NSC Tools</title>
+
+    <link rel="stylesheet" href="css/styles.css">
+
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <header>
+
+        <h1 id="siteTitle">Loading...</h1>
+
+        <p id="siteSubtitle"></p>
+
+        <nav id="tabContainer">
+            <!-- Generated from tools.json -->
+        </nav>
+
+    </header>
+
+    <!-- ================= FEATURED ================= -->
+
+    <section id="featuredSection" class="hidden">
+
         <div class="container">
-            <div id="grid" class="tools-grid"></div>
+
+            <h2 class="section-title">
+                Featured
+            </h2>
+
+            <div
+                id="featuredGrid"
+                class="tools-grid">
+            </div>
+
         </div>
-        <footer id="footer"></footer>
-        <script>
-            let DATA;
-            async function loadSite() {
-                DATA = await(await fetch("tools.json")).json();
-                document
-                    .getElementById("siteTitle")
-                    .textContent = DATA.site.title;
-                document
-                    .getElementById("siteSubtitle")
-                    .textContent = DATA.site.subtitle;
-                document
-                    .getElementById("footer")
-                    .textContent = DATA.site.footer;
-                createTabs();
-                loadCategory(DATA.site.categories[0]);
-            }
-            function createTabs() {
-                const nav = document.getElementById("tabs");
-                nav.innerHTML = "";
-                DATA
-                    .site
-                    .categories
-                    .forEach((c, i) => {
-                        const b = document.createElement("button");
-                        b.className = "tab-btn" + (
-                            i === 0
-                                ? " active"
-                                : ""
-                        );
-                        b.textContent = c;
-                        b.onclick = () => {
-                            document
-                                .querySelectorAll(".tab-btn")
-                                .forEach(x => x.classList.remove("active"));
-                            b
-                                .classList
-                                .add("active");
-                            loadCategory(c);
-                        }
-                        nav.appendChild(b);
-                    });
-            }
-            function loadCategory(cat) {
-                const grid = document.getElementById("grid");
-                const list = DATA
-                    .projects
-                    .filter(p => p.category === cat && p.display.enabled);
-                grid.innerHTML = list
-                    .map(
-                        p => p.icons.length
-                            ? scriptCard(p)
-                            : toolCard(p)
-                    )
-                    .join("");
-            }
-            function toolCard(p) {
-                return `<div class="tool-card">
- <img class="tool-image" src="${p
-                    .image}">
- <div class="tool-content"><h2>${p
-                    .title}</h2><p>${p
-                    .desc}</p>
- <div class="buttons">
- <a class="btn btn-primary" href="${p
-                    .download}" ${p
-                    .download
-                    .startsWith("http")
-                        ? 'target="_blank"'
-                        : 'download'}>${p.display.buttonText}</a>
- ${p.docs
-                            ? `<a class="btn" href="${p.docs}">Docs</a>`
-                            : ''}
- </div></div></div>`;
-            }
-            function scriptCard(p) {
-                const s = Math.min(p.icons.length, 3);
-                return `<div class="script-card">
- <div class="script-icon-stack stack-${s}">
- ${p
-                    .icons
-                    .slice(0, 3)
-                    .map(i => `<img class="script-icon" src="${i}">`)
-                    .join("")}
- </div>
- <div class="script-info"><h2>${p
-                    .title}</h2><p>${p
-                    .desc}</p>
- <div class="script-buttons">
- <a class="btn btn-primary" href="${p
-                    .download}" ${p
-                    .download
-                    .startsWith("http")
-                        ? 'target="_blank"'
-                        : 'download'}>${p.display.buttonText}</a>
- ${p.docs
-                            ? `<a class="btn" href="${p.docs}">Docs</a>`
-                            : ''}
- </div></div></div>`;
-            }
-            loadSite();
-        </script>
-    </body>
+
+    </section>
+
+    <!-- ================= PROJECTS ================= -->
+
+    <main class="container">
+
+        <div
+            id="toolsGrid"
+            class="tools-grid">
+        </div>
+
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer id="siteFooter">
+
+    </footer>
+
+    <!-- ================= TEMPLATES ================= -->
+
+    <!-- Tool Card -->
+
+    <template id="toolTemplate">
+
+        <div class="tool-card">
+
+            <img
+                class="tool-image"
+                src=""
+                alt="">
+
+            <div class="tool-content">
+
+                <h2></h2>
+
+                <p></p>
+
+                <div class="buttons">
+
+                    <a
+                        class="btn btn-primary download-btn">
+                    </a>
+
+                    <a
+                        class="btn docs-btn">
+                        Docs
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </template>
+
+    <!-- Script Card -->
+
+    <template id="scriptTemplate">
+
+        <div class="script-card">
+
+            <div class="script-icon-stack">
+
+            </div>
+
+            <div class="script-info">
+
+                <h2></h2>
+
+                <p></p>
+
+                <div class="script-buttons">
+
+                    <a
+                        class="btn btn-primary download-btn">
+                    </a>
+
+                    <a
+                        class="btn docs-btn">
+                        Docs
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </template>
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script src="js/script.js"></script>
+
+</body>
+
 </html>
