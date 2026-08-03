@@ -63,12 +63,9 @@ async function loadData() {
 ==================================================*/
 
 function buildSite() {
-
     loadSiteInfo();
 
     createTabs();
-
-    createFeatured();
 
     if (siteData.site.categories.length > 0) {
 
@@ -160,45 +157,6 @@ function switchCategory(category) {
     renderProjects(category);
 
 }
-/*==================================================
-    FEATURED PROJECTS
-==================================================*/
-
-function createFeatured() {
-
-    const section = document.getElementById("featuredSection");
-
-    const grid = document.getElementById("featuredGrid");
-
-    grid.innerHTML = "";
-
-    const featured = siteData
-        .projects
-        .filter(project => project.display.enabled && project.display.featured);
-
-    if (featured.length === 0) {
-
-        section
-            .classList
-            .add("hidden");
-
-        return;
-
-    }
-
-    section
-        .classList
-        .remove("hidden");
-
-    featured.forEach(project => {
-
-        const card = createProjectCard(project);
-
-        grid.appendChild(card);
-
-    });
-
-}
 
 /*==================================================
     GET PROJECTS
@@ -256,13 +214,16 @@ function renderProjects(category) {
 
 function createProjectCard(project) {
 
-    if (project.icons.length > 0) {
+    switch (project.media.type.toLowerCase()) {
 
-        return createScriptCard(project);
+        case "icons":
+            return createScriptCard(project);
+
+        case "image":
+        default:
+            return createToolCard(project);
 
     }
-
-    return createToolCard(project);
 
 }
 /*==================================================
@@ -278,26 +239,23 @@ function createToolCard(project) {
         .firstElementChild
         .cloneNode(true);
 
-    const image = card.querySelector(".tool-image");
-
-    image.src = project.image;
-    image.alt = project.title;
-
-    image.onerror = () => {
-
-        image.src = "images/placeholder.png";
-
-    };
-
     card
-        .querySelector("h2")
+        .querySelector(".project-title")
         .textContent = project.title;
 
     card
-        .querySelector("p")
+        .querySelector(".project-description")
         .textContent = project.desc;
 
-    createButtons(card, project);
+    card
+        .querySelector(".project-version")
+        .textContent = project.version
+            ? "Version " + project.version
+            : "";
+
+    createMedia(card.querySelector(".tool-media"), project);
+
+    createLinks(card.querySelector(".project-links"), project.links);
 
     return card;
 
@@ -317,108 +275,27 @@ function createScriptCard(project) {
         .cloneNode(true);
 
     card
-        .querySelector("h2")
+        .querySelector(".project-title")
         .textContent = project.title;
 
     card
-        .querySelector("p")
+        .querySelector(".project-description")
         .textContent = project.desc;
 
-    const stack = card.querySelector(".script-icon-stack");
+    card
+        .querySelector(".project-version")
+        .textContent = project.version
+            ? "Version " + project.version
+            : "";
 
-    createIconStack(stack, project.icons);
+    createMedia(card.querySelector(".script-media"), project);
 
-    createButtons(card, project);
+    createLinks(card.querySelector(".project-links"), project.links);
 
     return card;
 
 }
 
-/*==================================================
-    ICON STACK
-==================================================*/
-
-function createIconStack(container, icons) {
-
-    container.innerHTML = "";
-
-    const amount = Math.min(icons.length, 3);
-
-    container
-        .classList
-        .add("stack-" + amount);
-
-    icons
-        .slice(0, 3)
-        .forEach(icon => {
-
-            const img = document.createElement("img");
-
-            img.className = "script-icon";
-
-            img.src = icon;
-
-            img.alt = "";
-
-            img.onerror = () => {
-
-                img.src = "icons/placeholder.png";
-
-            };
-
-            container.appendChild(img);
-
-        });
-
-}
-
-/*==================================================
-    BUTTONS
-==================================================*/
-
-function createButtons(card, project) {
-
-    const download = card.querySelector(".download-btn");
-
-    const docs = card.querySelector(".docs-btn");
-
-    /*==============================*/
-
-    if (project.download && project.download !== "#") {
-
-        download.href = project.download;
-
-        download.textContent = project.display.buttonText;
-
-        if (isExternalLink(project.download)) {
-
-            download.target = "_blank";
-
-        } else {
-
-            download.setAttribute("download", "");
-
-        }
-
-    } else {
-
-        download.remove();
-
-    }
-
-    /*==============================*/
-
-    if (project.docs && project.docs.length > 0) {
-
-        docs.href = project.docs;
-
-    } else {
-
-        docs.remove();
-
-    }
-
-}
 /*==================================================
     HELPERS
 ==================================================*/
@@ -557,7 +434,119 @@ function printProjects() {
     console.table(siteData.projects);
 
 }
+function createMedia(container, project) {
 
+    container.innerHTML = "";
+
+    if (project.media.type === "image") {
+
+        if (project.media.files.length === 0) {
+
+            const placeholder = document
+                .getElementById("imagePlaceholderTemplate")
+                .content
+                .firstElementChild
+                .cloneNode(true);
+
+            container.appendChild(placeholder);
+
+            return;
+
+        }
+
+        const img = document.createElement("img");
+
+        img.className = "tool-image";
+
+        img.src = project
+            .media
+            .files[0];
+
+        img.alt = project.title;
+
+        img.onerror = () => {
+
+            img.remove();
+
+            const placeholder = document
+                .getElementById("imagePlaceholderTemplate")
+                .content
+                .firstElementChild
+                .cloneNode(true);
+
+            container.appendChild(placeholder);
+
+        };
+
+        container.appendChild(img);
+
+        return;
+
+    }
+
+    const stack = document.createElement("div");
+
+    stack.className = "script-icon-stack stack-" + Math.min(
+        project.media.files.length,
+        3
+    );
+
+    project
+        .media
+        .files
+        .slice(0, 3)
+        .forEach(file => {
+
+            const img = document.createElement("img");
+
+            img.className = "script-icon";
+
+            img.src = file;
+
+            img.alt = "";
+
+            stack.appendChild(img);
+
+        });
+
+    container.appendChild(stack);
+
+}
+function createLinks(container, links) {
+
+    container.innerHTML = "";
+
+    links.forEach(link => {
+
+        if (!link.url) 
+            return;
+        
+        if (link.url === "#") 
+            return;
+        
+        const button = document.createElement("a");
+
+        button.className = "btn btn-primary";
+
+        button.textContent = link.label;
+
+        button.href = link.url;
+
+        if (isExternalLink(link.url)) {
+
+            button.target = "_blank";
+
+        } else {
+
+            button.setAttribute("download", "");
+
+        }
+
+        container.appendChild(button);
+
+    });
+
+}
 /*==================================================
     END
 ==================================================*/

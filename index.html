@@ -4,95 +4,100 @@
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="NSC Tools">
 
     <title>NSC Tools</title>
 
-    <link rel="stylesheet" href="css/styles.css">
+    <link
+        rel="stylesheet"
+        href="css/styles.css">
 
 </head>
 
 <body>
 
-    <!-- ================= HEADER ================= -->
+    <!-- ==========================================
+         HEADER
+    =========================================== -->
 
     <header>
 
-        <h1 id="siteTitle">Loading...</h1>
+        <div class="container">
 
-        <p id="siteSubtitle"></p>
+            <h1 id="siteTitle">
+                Loading...
+            </h1>
 
-        <nav id="tabContainer">
-            <!-- Generated from tools.json -->
-        </nav>
+            <p id="siteSubtitle">
+
+            </p>
+
+            <nav
+                id="tabContainer">
+
+                <!--
+                    Generated automatically
+                    from tools.json
+                -->
+
+            </nav>
+
+        </div>
 
     </header>
 
-    <!-- ================= FEATURED ================= -->
+    <!-- ==========================================
+         MAIN CONTENT
+    =========================================== -->
 
-    <section id="featuredSection" class="hidden">
+    <main>
 
         <div class="container">
 
-            <h2 class="section-title">
-                Featured
-            </h2>
-
             <div
-                id="featuredGrid"
+                id="toolsGrid"
                 class="tools-grid">
+
+                <!--
+                    Project cards
+                    are inserted here.
+                -->
+
             </div>
 
         </div>
 
-    </section>
-
-    <!-- ================= PROJECTS ================= -->
-
-    <main class="container">
-
-        <div
-            id="toolsGrid"
-            class="tools-grid">
-        </div>
-
     </main>
-
-    <!-- ================= FOOTER ================= -->
-
-    <footer id="siteFooter">
-
-    </footer>
-
-    <!-- ================= TEMPLATES ================= -->
-
-    <!-- Tool Card -->
+        <!-- ==========================================
+         TOOL CARD TEMPLATE
+    =========================================== -->
 
     <template id="toolTemplate">
 
         <div class="tool-card">
 
-            <img
-                class="tool-image"
-                src=""
-                alt="">
+            <div class="tool-media">
+
+            </div>
 
             <div class="tool-content">
 
-                <h2></h2>
+                <h2 class="project-title"></h2>
 
-                <p></p>
+                <div class="project-version"></div>
 
-                <div class="buttons">
+                <p class="project-description"></p>
 
-                    <a
-                        class="btn btn-primary download-btn">
-                    </a>
+                <div class="project-links">
 
-                    <a
-                        class="btn docs-btn">
-                        Docs
-                    </a>
+                    <!-- Buttons generated here -->
 
                 </div>
 
@@ -102,32 +107,30 @@
 
     </template>
 
-    <!-- Script Card -->
+
+    <!-- ==========================================
+         SCRIPT CARD TEMPLATE
+    =========================================== -->
 
     <template id="scriptTemplate">
 
         <div class="script-card">
 
-            <div class="script-icon-stack">
+            <div class="script-media">
 
             </div>
 
             <div class="script-info">
 
-                <h2></h2>
+                <h2 class="project-title"></h2>
 
-                <p></p>
+                <div class="project-version"></div>
 
-                <div class="script-buttons">
+                <p class="project-description"></p>
 
-                    <a
-                        class="btn btn-primary download-btn">
-                    </a>
+                <div class="project-links">
 
-                    <a
-                        class="btn docs-btn">
-                        Docs
-                    </a>
+                    <!-- Buttons generated here -->
 
                 </div>
 
@@ -137,7 +140,50 @@
 
     </template>
 
-    <!-- ================= JAVASCRIPT ================= -->
+
+    <!-- ==========================================
+         IMAGE PLACEHOLDER TEMPLATE
+    =========================================== -->
+
+    <template id="imagePlaceholderTemplate">
+
+        <div class="image-placeholder">
+
+            <div class="placeholder-icon">
+
+                🛠
+
+            </div>
+
+            <div class="placeholder-text">
+
+                No Preview
+
+            </div>
+
+        </div>
+
+    </template>
+
+
+    <!-- ==========================================
+         FOOTER
+    =========================================== -->
+
+    <footer>
+
+        <div class="container">
+
+            <span id="siteFooter">
+
+            </span>
+
+        </div>
+
+    </footer>
+        <!-- ==========================================
+         JAVASCRIPT
+    =========================================== -->
 
     <script src="js/script.js"></script>
 

@@ -1,243 +1,185 @@
 {
-  "site": {
-    "title": "NSC Tools",
-    "subtitle": "Some Projects / Tools I'm working on",
-    "footer": "© 2026 Nicholas Crouse",
+    "schemaVersion": 1,
+    "site": {
+        "title": "NSC Tools",
+        "subtitle": "Some Projects / Tools I'm working on",
+        "footer": "© 2026 Nicholas Crouse",
+        "categories": ["Tools", "Scripts", "Misc"]
+    },
 
-    "categories": [
-      "Tools",
-      "Scripts",
-      "Misc"
+    "projects": [
+        {
+            "id": "batch-rename",
+            "category": "Tools",
+            "title": "Batch Rename",
+            "version": "1.0",
+            "desc": "Super simple UI based batch renamer",
+            "tags": [
+                "Windows", "Utility"
+            ],
+            "enabled": true,
+
+            "media": {
+                "type": "image",
+                "files": ["images/renamer.jpg"]
+            },
+
+            "links": [
+                {
+                    "label": "Github",
+                    "url": "https://github.com/Jurakii/BatchRename/releases"
+                }
+            ]
+        }, {
+            "id": "quick-dir",
+            "category": "Tools",
+            "title": "Quick Dir",
+            "version": "1.0",
+            "desc": "Create directories with selectable layouts for your classes / projects",
+            "tags": [
+                "Windows", "Folders"
+            ],
+            "enabled": true,
+
+            "media": {
+                "type": "image",
+                "files": ["images/exporter.jpg"]
+            },
+
+            "links": [
+                {
+                    "label": "Github",
+                    "url": "https://github.com/Jurakii/QuickDir/releases"
+                }
+            ]
+        }, {
+            "id": "auto-login",
+            "category": "Tools",
+            "title": "Auto Login",
+            "version": "",
+            "desc": "Automatically sign into Gnomon Online",
+            "tags": [],
+            "enabled": false,
+
+            "media": {
+                "type": "image",
+                "files": []
+            },
+
+            "links": [
+                {
+                    "label": "Github",
+                    "url": ""
+                }
+            ]
+        }, {
+            "id": "blackjack",
+            "category": "Scripts",
+            "title": "♠ ♥ BLACKJACK ♦ ♣ v1.0",
+            "version": "1.0",
+            "desc": "Blackjack for Maya",
+            "tags": [
+                "Maya", "Python", "Game"
+            ],
+            "enabled": true,
+
+            "media": {
+                "type": "icons",
+                "files": ["icons/Blackjack.png"]
+            },
+
+            "links": [
+                {
+                    "label": "Download",
+                    "url": "scripts/Blackjack_v1.0.py"
+                }
+            ]
+        }, {
+            "id": "assign-rgb",
+            "category": "Scripts",
+            "title": "Assign RGB",
+            "version": "1.0",
+            "desc": "Create and assign RGB standard surface shaders quickly",
+            "tags": [
+                "Maya", "MEL", "Shaders"
+            ],
+            "enabled": true,
+
+            "media": {
+                "type": "icons",
+                "files": ["icons/AssignRGB.png"]
+            },
+
+            "links": [
+                {
+                    "label": "Download",
+                    "url": "scripts/AssignRGB.mel"
+                }
+            ]
+        }, {
+            "id": "assign-rgbcmy",
+            "category": "Scripts",
+            "title": "Assign RGBCMY",
+            "version": "1.0",
+            "desc": "Create and assign RGBCMY standard surface shaders quickly",
+            "tags": [
+                "Maya", "MEL", "Shaders"
+            ],
+            "enabled": true,
+
+            "media": {
+                "type": "icons",
+                "files": ["icons/AssignRGBCMY.png"]
+            },
+
+            "links": [
+                {
+                    "label": "Download",
+                    "url": "scripts/AssignRGBCMY.mel"
+                }
+            ]
+        }, {
+            "id": "grid-defaults",
+            "category": "Scripts",
+            "title": "Grid Defaults",
+            "version": "1.0",
+            "desc": "Quickly swap between Maya / Unreal default grid size",
+            "tags": [
+                "Maya", "Unreal"
+            ],
+            "enabled": true,
+
+            "media": {
+                "type": "icons",
+                "files": ["icons/DefaultGrid.png", "icons/UEGrid.png"]
+            },
+
+            "links": [
+                {
+                    "label": "Download",
+                    "url": "#"
+                }
+            ]
+        }, {
+            "id": "website-template",
+            "category": "Misc",
+            "title": "Website Template",
+            "version": "1.0",
+            "desc": "Simple responsive template",
+            "tags": ["Website"],
+            "enabled": true,
+
+            "media": {
+                "type": "image",
+                "files": ["images/misc1.jpg"]
+            },
+
+            "links": [
+                {
+                    "label": "View",
+                    "url": "#"
+                }
+            ]
+        }
     ]
-  },
-
-  "projects": [
-    {
-      "id": "batch-rename",
-      "category": "Tools",
-
-      "title": "Batch Rename",
-      "version": "1.0",
-      "author": "Nicholas Crouse",
-      "desc": "Super simple UI based batch renamer",
-
-      "image": "images/renamer.jpg",
-      "icons": [],
-
-      "download": "https://github.com/Jurakii/BatchRename/releases",
-      "docs": "",
-
-      "tags": [
-        "Windows",
-        "Utility"
-      ],
-
-      "display": {
-        "enabled": true,
-        "featured": false,
-        "buttonText": "Github"
-      }
-    },
-
-    {
-      "id": "quick-dir",
-      "category": "Tools",
-
-      "title": "Quick Dir",
-      "version": "1.0",
-      "author": "Nicholas Crouse",
-      "desc": "Create directories with selectable layouts for your classes / projects",
-
-      "image": "images/exporter.jpg",
-      "icons": [],
-
-      "download": "https://github.com/Jurakii/QuickDir/releases",
-      "docs": "",
-
-      "tags": [
-        "Windows",
-        "Folders"
-      ],
-
-      "display": {
-        "enabled": true,
-        "featured": false,
-        "buttonText": "Github"
-      }
-    },
-
-    {
-      "id": "auto-login",
-      "category": "Tools",
-
-      "title": "Auto Login",
-      "version": "",
-      "author": "Nicholas Crouse",
-      "desc": "Automatically sign into Gnomon Online",
-
-      "image": "",
-      "icons": [],
-
-      "download": "",
-      "docs": "",
-
-      "tags": [],
-
-      "display": {
-        "enabled": false,
-        "featured": false,
-        "buttonText": "Github"
-      }
-    },
-
-    {
-      "id": "blackjack",
-      "category": "Scripts",
-
-      "title": "♠ ♥ BLACKJACK ♦ ♣ v1.0",
-      "version": "1.0",
-      "author": "Nicholas Crouse",
-      "desc": "Blackjack for Maya",
-
-      "image": "",
-
-      "icons": [
-        "icons/Blackjack.png"
-      ],
-
-      "download": "scripts/Blackjack_v1.0.py",
-      "docs": "",
-
-      "tags": [
-        "Maya",
-        "Python",
-        "Game"
-      ],
-
-      "display": {
-        "enabled": true,
-        "featured": true,
-        "buttonText": "Download"
-      }
-    },
-
-    {
-      "id": "assign-rgb",
-      "category": "Scripts",
-
-      "title": "Assign RGB",
-      "version": "1.0",
-      "author": "Nicholas Crouse",
-      "desc": "Create and assign RGB standard surface shaders quickly",
-
-      "image": "",
-
-      "icons": [
-        "icons/AssignRGB.png"
-      ],
-
-      "download": "scripts/AssignRGB.mel",
-      "docs": "",
-
-      "tags": [
-        "Maya",
-        "MEL",
-        "Shaders"
-      ],
-
-      "display": {
-        "enabled": true,
-        "featured": false,
-        "buttonText": "Download"
-      }
-    },
-
-    {
-      "id": "assign-rgbcmy",
-      "category": "Scripts",
-
-      "title": "Assign RGBCMY",
-      "version": "1.0",
-      "author": "Nicholas Crouse",
-      "desc": "Create and assign RGBCMY standard surface shaders quickly",
-
-      "image": "",
-
-      "icons": [
-        "icons/AssignRGBCMY.png"
-      ],
-
-      "download": "scripts/AssignRGBCMY.mel",
-      "docs": "",
-
-      "tags": [
-        "Maya",
-        "MEL",
-        "Shaders"
-      ],
-
-      "display": {
-        "enabled": true,
-        "featured": false,
-        "buttonText": "Download"
-      }
-    },
-
-    {
-      "id": "grid-defaults",
-      "category": "Scripts",
-
-      "title": "Grid Defaults",
-      "version": "1.0",
-      "author": "Nicholas Crouse",
-      "desc": "Quickly swap between Maya / Unreal default grid size",
-
-      "image": "",
-
-      "icons": [
-        "icons/DefaultGrid.png",
-        "icons/UEGrid.png"
-      ],
-
-      "download": "#",
-      "docs": "",
-
-      "tags": [
-        "Maya",
-        "Unreal"
-      ],
-
-      "display": {
-        "enabled": true,
-        "featured": false,
-        "buttonText": "Download"
-      }
-    },
-
-    {
-      "id": "website-template",
-      "category": "Misc",
-
-      "title": "Website Template",
-      "version": "1.0",
-      "author": "Nicholas Crouse",
-      "desc": "Simple responsive template.",
-
-      "image": "images/misc1.jpg",
-      "icons": [],
-
-      "download": "#",
-      "docs": "",
-
-      "tags": [
-        "Website"
-      ],
-
-      "display": {
-        "enabled": true,
-        "featured": false,
-        "buttonText": "View"
-      }
-    }
-  ]
 }
