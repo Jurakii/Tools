@@ -5,7 +5,7 @@ NSC Tools - JSON Editor (PySide6 edition)
 A modern desktop GUI for editing tools.json.
 
 Requires PySide6:
-    python -m pip install PySide6
+    pip install PySide6
 
 Run:
     python3 tools_editor_qt.py
@@ -22,7 +22,7 @@ from PySide6.QtGui import QAction, QKeySequence
 from PySide6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QLabel, QLineEdit, QTextEdit,
     QComboBox, QCheckBox, QPushButton, QVBoxLayout, QHBoxLayout, QFormLayout,
-    QTreeWidget, QTreeWidgetItem, QListWidget, QListWidgetItem, QScrollArea,
+    QListWidget, QListWidgetItem, QScrollArea,
     QFileDialog, QMessageBox, QDialog, QInputDialog, QAbstractItemView,
     QSizePolicy, QLayout, QFrame, QSplitter
 )
@@ -57,6 +57,9 @@ QWidget {
     font-size: 10.5pt;
 }
 QMainWindow, QDialog { background-color: %(BG)s; }
+QLabel, QCheckBox, QScrollArea, QScrollArea > QWidget > QWidget {
+    background: transparent;
+}
 QFrame#panel { background-color: %(PANEL)s; border-radius: 10px; }
 QLineEdit, QTextEdit, QComboBox {
     background-color: %(PANEL_ALT)s;
@@ -66,14 +69,14 @@ QLineEdit, QTextEdit, QComboBox {
     selection-background-color: %(ACCENT)s;
 }
 QComboBox::drop-down { border: none; width: 22px; }
-QListWidget, QTreeWidget {
+QListWidget {
     background-color: %(PANEL_ALT)s;
     border: 1px solid %(BORDER)s;
     border-radius: 6px;
     outline: none;
 }
-QTreeWidget::item, QListWidget::item { padding: 6px; }
-QTreeWidget::item:selected, QListWidget::item:selected { background: %(ACCENT)s; color: white; }
+QListWidget::item { padding: 4px; border-radius: 6px; }
+QListWidget::item:selected { background: %(ACCENT)s; color: white; }
 QHeaderView::section {
     background: #333333; color: %(TEXT)s; border: none; padding: 6px; font-weight: bold;
 }
@@ -288,6 +291,57 @@ class LinkRow(QWidget):
 
 
 # ==================================================
+#   PROJECT LIST  (flat list - InternalMove can only reorder siblings,
+#   unlike QTreeWidget which can accidentally nest a dropped row)
+# ==================================================
+
+class ProjectList(QListWidget):
+    orderChanged = Signal()
+
+    def dropEvent(self, event):
+        super().dropEvent(event)
+        self.orderChanged.emit()
+
+
+class ProjectRow(QWidget):
+    def __init__(self, project):
+        super().__init__()
+        self.setObjectName("projectRow")
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(10, 6, 10, 6)
+        layout.setSpacing(2)
+
+        top = QHBoxLayout()
+        self.title_label = QLabel()
+        self.title_label.setStyleSheet("font-weight: 600;")
+        self.status_label = QLabel()
+        top.addWidget(self.title_label)
+        top.addStretch()
+        top.addWidget(self.status_label)
+        layout.addLayout(top)
+
+        self.meta_label = QLabel()
+        self.meta_label.setObjectName("muted")
+        layout.addWidget(self.meta_label)
+
+        self.set_data(project)
+
+    def set_data(self, project):
+        self.title_label.setText(project.get("title", "") or "(untitled)")
+        cat = project.get("category", "")
+        ver = project.get("version", "")
+        meta = cat
+        if ver:
+            meta = f"{cat}  \u00b7  v{ver}" if cat else f"v{ver}"
+        self.meta_label.setText(meta)
+        enabled = bool(project.get("enabled"))
+        self.status_label.setText("\u25cf On" if enabled else "\u25cb Off")
+        self.status_label.setStyleSheet(
+            f"color: {ACCENT if enabled else MUTED}; font-weight: 600;"
+        )
+
+
+# ==================================================
 #   SITE SETTINGS DIALOG
 # ==================================================
 
@@ -381,8 +435,8 @@ class MainWindow(QMainWindow):
     def __init__(self, path=None):
         super().__init__()
         self.setWindowTitle("NSC Tools - JSON Editor")
-        self.resize(1180, 720)
-        self.setMinimumSize(900, 560)
+        self.resize(1380, 860)
+        self.setMinimumSize(1080, 680)
 
         self.file_path = None
         self.data = None
@@ -452,15 +506,12 @@ class MainWindow(QMainWindow):
         left_header.addWidget(new_btn)
         left_layout.addLayout(left_header)
 
-        self.tree = QTreeWidget()
-        self.tree.setHeaderLabels(["Category", "Title", "Ver", "On"])
-        self.tree.setColumnWidth(0, 90)
-        self.tree.setColumnWidth(1, 170)
-        self.tree.setColumnWidth(2, 50)
-        self.tree.setRootIsDecorated(False)
+        self.tree = ProjectList()
+        self.tree.setSpacing(2)
         self.tree.setDragDropMode(QAbstractItemView.InternalMove)
         self.tree.setSelectionMode(QAbstractItemView.SingleSelection)
         self.tree.itemSelectionChanged.connect(self.on_select_project)
+        self.tree.orderChanged.connect(self._sync_order_from_tree)
         left_layout.addWidget(self.tree, stretch=1)
 
         hint = QLabel("Drag rows to reorder \u00b7 site always sorts cards A-Z, this is just for you")
@@ -485,7 +536,7 @@ class MainWindow(QMainWindow):
         self._build_form(self.form_widget)
 
         splitter.addWidget(right_panel)
-        splitter.setSizes([420, 760])
+        splitter.setSizes([460, 900])
 
         self.statusBar().showMessage("")
         self._set_form_enabled(False)
@@ -739,12 +790,12 @@ class MainWindow(QMainWindow):
         self.tree.blockSignals(True)
         self.tree.clear()
         for p in self.data["projects"]:
-            item = QTreeWidgetItem([
-                p.get("category", ""), p.get("title", ""),
-                p.get("version", ""), "Yes" if p.get("enabled") else "No"
-            ])
-            item.setData(0, Qt.UserRole, p["id"])
-            self.tree.addTopLevelItem(item)
+            item = QListWidgetItem()
+            item.setData(Qt.UserRole, p["id"])
+            row = ProjectRow(p)
+            item.setSizeHint(row.sizeHint())
+            self.tree.addItem(item)
+            self.tree.setItemWidget(item, row)
         self.tree.blockSignals(False)
 
     def find_project(self, pid):
@@ -754,17 +805,31 @@ class MainWindow(QMainWindow):
         return None
 
     def _select_item_by_id(self, pid):
-        for i in range(self.tree.topLevelItemCount()):
-            item = self.tree.topLevelItem(i)
-            if item.data(0, Qt.UserRole) == pid:
+        for i in range(self.tree.count()):
+            item = self.tree.item(i)
+            if item.data(Qt.UserRole) == pid:
                 self.tree.setCurrentItem(item)
                 return
+
+    def _find_item_by_id(self, pid):
+        for i in range(self.tree.count()):
+            item = self.tree.item(i)
+            if item.data(Qt.UserRole) == pid:
+                return item
+        return None
+
+    def _sync_order_from_tree(self):
+        order = [self.tree.item(i).data(Qt.UserRole)
+                 for i in range(self.tree.count())]
+        by_id = {p["id"]: p for p in self.data["projects"]}
+        self.data["projects"] = [by_id[pid] for pid in order if pid in by_id]
+        self.mark_dirty()
 
     def on_select_project(self):
         items = self.tree.selectedItems()
         if not items:
             return
-        pid = items[0].data(0, Qt.UserRole)
+        pid = items[0].data(Qt.UserRole)
         if self.selected_id and self.selected_id != pid:
             self.commit_form_to_data(silent=True)
         self.selected_id = pid
@@ -877,9 +942,15 @@ class MainWindow(QMainWindow):
             cats.append(p["category"])
             self.refresh_category_combo()
 
+        # Update the existing row in place instead of rebuilding the tree -
+        # rebuilding would clear the current selection and undo any drag reorder.
+        item = self._find_item_by_id(self.selected_id)
         self.selected_id = p["id"]
-        self.refresh_tree()
-        self._select_item_by_id(p["id"])
+        if item is not None:
+            item.setData(Qt.UserRole, p["id"])
+            row_widget = self.tree.itemWidget(item)
+            if row_widget is not None:
+                row_widget.set_data(p)
         self.mark_dirty()
         if not silent:
             self.statusBar().showMessage("Applied changes (not yet saved to disk)")

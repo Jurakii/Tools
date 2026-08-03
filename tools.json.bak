@@ -4,12 +4,9 @@
         "title": "NSC Tools",
         "subtitle": "Some Projects / Tools I'm working on",
         "footer": "© 2026 Nicholas Crouse",
-        "categories": [
-            "Tools",
-            "Scripts",
-            "Misc"
-        ]
+        "categories": ["Tools", "Scripts", "Misc"]
     },
+
     "projects": [
         {
             "id": "batch-rename",
@@ -18,48 +15,44 @@
             "version": "1.0",
             "desc": "Super simple UI based batch renamer",
             "tags": [
-                "Windows",
-                "Utility"
+                "Windows", "Utility"
             ],
             "enabled": true,
+
             "media": {
                 "type": "image",
-                "files": [
-                    "images/renamer.jpg"
-                ]
+                "files": ["images/renamer.jpg"]
             },
+
             "links": [
                 {
                     "label": "Github",
                     "url": "https://github.com/Jurakii/BatchRename/releases"
                 }
             ]
-        },
-        {
+        }, {
             "id": "quick-dir",
             "category": "Tools",
             "title": "Quick Dir",
             "version": "1.0",
             "desc": "Create directories with selectable layouts for your classes / projects",
             "tags": [
-                "Windows",
-                "Folders"
+                "Windows", "Folders"
             ],
             "enabled": true,
+
             "media": {
                 "type": "image",
-                "files": [
-                    "images/exporter.jpg"
-                ]
+                "files": ["images/exporter.jpg"]
             },
+
             "links": [
                 {
                     "label": "Github",
                     "url": "https://github.com/Jurakii/QuickDir/releases"
                 }
             ]
-        },
-        {
+        }, {
             "id": "auto-login",
             "category": "Tools",
             "title": "Auto Login",
@@ -67,153 +60,126 @@
             "desc": "Automatically sign into Gnomon Online",
             "tags": [],
             "enabled": false,
+
             "media": {
                 "type": "image",
                 "files": []
             },
+
             "links": [
                 {
                     "label": "Github",
                     "url": ""
                 }
             ]
-        },
-        {
+        }, {
             "id": "blackjack",
             "category": "Scripts",
             "title": "♠ ♥ BLACKJACK ♦ ♣ v1.0",
             "version": "1.0",
             "desc": "Blackjack for Maya",
             "tags": [
-                "Maya",
-                "Python",
-                "Game"
+                "Maya", "Python", "Game"
             ],
             "enabled": true,
+
             "media": {
                 "type": "icons",
-                "files": [
-                    "icons/Blackjack.png"
-                ]
+                "files": ["icons/Blackjack.png"]
             },
+
             "links": [
                 {
                     "label": "Download",
                     "url": "scripts/Blackjack_v1.0.py"
                 }
             ]
-        },
-        {
+        }, {
             "id": "assign-rgb",
             "category": "Scripts",
             "title": "Assign RGB",
             "version": "1.0",
             "desc": "Create and assign RGB standard surface shaders quickly",
             "tags": [
-                "Maya",
-                "MEL",
-                "Shaders"
+                "Maya", "MEL", "Shaders"
             ],
             "enabled": true,
+
             "media": {
-                "type": "image",
-                "files": [
-                    "icons/AssignRGB.png"
-                ]
+                "type": "icons",
+                "files": ["icons/AssignRGB.png"]
             },
+
             "links": [
                 {
                     "label": "Download",
                     "url": "scripts/AssignRGB.mel"
                 }
             ]
-        },
-        {
+        }, {
             "id": "assign-rgbcmy",
             "category": "Scripts",
             "title": "Assign RGBCMY",
             "version": "1.0",
             "desc": "Create and assign RGBCMY standard surface shaders quickly",
             "tags": [
-                "Maya",
-                "MEL",
-                "Shaders"
+                "Maya", "MEL", "Shaders"
             ],
             "enabled": true,
+
             "media": {
                 "type": "icons",
-                "files": [
-                    "icons/AssignRGBCMY.png"
-                ]
+                "files": ["icons/AssignRGBCMY.png"]
             },
+
             "links": [
                 {
                     "label": "Download",
                     "url": "scripts/AssignRGBCMY.mel"
                 }
             ]
-        },
-        {
+        }, {
             "id": "grid-defaults",
             "category": "Scripts",
             "title": "Grid Defaults",
             "version": "1.0",
             "desc": "Quickly swap between Maya / Unreal default grid size",
             "tags": [
-                "Maya",
-                "Unreal"
+                "Maya", "Unreal"
             ],
             "enabled": true,
+
             "media": {
                 "type": "icons",
-                "files": [
-                    "icons/DefaultGrid.png",
-                    "icons/UEGrid.png"
-                ]
+                "files": ["icons/DefaultGrid.png", "icons/UEGrid.png"]
             },
+
             "links": [
                 {
                     "label": "Download",
                     "url": "#"
                 }
             ]
-        },
-        {
+        }, {
             "id": "website-template",
             "category": "Misc",
             "title": "Website Template",
             "version": "1.0",
             "desc": "Simple responsive template",
-            "tags": [
-                "Website"
-            ],
+            "tags": ["Website"],
             "enabled": true,
+
             "media": {
                 "type": "image",
-                "files": [
-                    "images/misc1.jpg"
-                ]
+                "files": ["images/misc1.jpg"]
             },
+
             "links": [
                 {
                     "label": "View",
                     "url": "#"
                 }
             ]
-        },
-        {
-            "id": "new-project",
-            "category": "Tools",
-            "title": "New Project",
-            "version": "1.0",
-            "desc": "",
-            "tags": [],
-            "enabled": true,
-            "media": {
-                "type": "image",
-                "files": []
-            },
-            "links": []
         }
     ]
 }
