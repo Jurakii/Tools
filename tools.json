@@ -6,8 +6,7 @@
         "footer": "© 2026 Nicholas Crouse",
         "categories": [
             "Tools",
-            "Scripts",
-            "Misc"
+            "Scripts"
         ]
     },
     "projects": [
@@ -21,7 +20,7 @@
                 "Windows",
                 "Utility"
             ],
-            "enabled": true,
+            "enabled": false,
             "media": {
                 "type": "image",
                 "files": [
@@ -45,7 +44,7 @@
                 "Windows",
                 "Folders"
             ],
-            "enabled": true,
+            "enabled": false,
             "media": {
                 "type": "image",
                 "files": [
@@ -81,7 +80,7 @@
         {
             "id": "blackjack",
             "category": "Scripts",
-            "title": "♠ ♥ BLACKJACK ♦ ♣ v1.0",
+            "title": "♠ ♥ BLACKJACK ♦ ♣",
             "version": "1.0",
             "desc": "Blackjack for Maya",
             "tags": [
@@ -106,34 +105,9 @@
         {
             "id": "assign-rgb",
             "category": "Scripts",
-            "title": "Assign RGB",
-            "version": "1.0",
-            "desc": "Create and assign RGB standard surface shaders quickly",
-            "tags": [
-                "Maya",
-                "MEL",
-                "Shaders"
-            ],
-            "enabled": true,
-            "media": {
-                "type": "image",
-                "files": [
-                    "icons/AssignRGB.png"
-                ]
-            },
-            "links": [
-                {
-                    "label": "Download",
-                    "url": "scripts/AssignRGB.mel"
-                }
-            ]
-        },
-        {
-            "id": "assign-rgbcmy",
-            "category": "Scripts",
-            "title": "Assign RGBCMY",
-            "version": "1.0",
-            "desc": "Create and assign RGBCMY standard surface shaders quickly",
+            "title": "Assign RGB & CMY",
+            "version": "1.1",
+            "desc": "Create and assign RGB & CMY standard surface shaders quickly",
             "tags": [
                 "Maya",
                 "MEL",
@@ -143,13 +117,14 @@
             "media": {
                 "type": "icons",
                 "files": [
+                    "icons/AssignRGB.png",
                     "icons/AssignRGBCMY.png"
                 ]
             },
             "links": [
                 {
                     "label": "Download",
-                    "url": "scripts/AssignRGBCMY.mel"
+                    "url": "scripts/AssignRGB.mel"
                 }
             ]
         },
@@ -174,44 +149,26 @@
             "links": [
                 {
                     "label": "Download",
-                    "url": "#"
+                    "url": "scripts/AssignRGB.mel"
                 }
             ]
         },
         {
-            "id": "website-template",
-            "category": "Misc",
-            "title": "Website Template",
-            "version": "1.0",
-            "desc": "Simple responsive template",
+            "id": "clean-sweep",
+            "category": "Scripts",
+            "title": "Clean Sweep",
+            "version": "1.1",
+            "desc": "Freeze transform and clear history in 1 press",
             "tags": [
-                "Website"
+                "Maya",
+                "MEL"
             ],
             "enabled": true,
             "media": {
-                "type": "image",
+                "type": "icons",
                 "files": [
-                    "images/misc1.jpg"
+                    "icons/CleanSweep.png"
                 ]
-            },
-            "links": [
-                {
-                    "label": "View",
-                    "url": "#"
-                }
-            ]
-        },
-        {
-            "id": "new-project",
-            "category": "Tools",
-            "title": "New Project",
-            "version": "1.0",
-            "desc": "",
-            "tags": [],
-            "enabled": true,
-            "media": {
-                "type": "image",
-                "files": []
             },
             "links": []
         }
