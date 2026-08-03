@@ -168,7 +168,7 @@ function getProjects(category) {
         .projects
         .filter(project => {
 
-            return (project.display.enabled && project.category === category);
+            return (project.enabled && project.category === category);
 
         });
 
@@ -349,7 +349,7 @@ function searchProjects(searchText) {
         .projects
         .filter(project => {
 
-            if (!project.display.enabled) 
+            if (!project.enabled) 
                 return false;
             
             if (project.title.toLowerCase().includes(searchText)) {
@@ -387,7 +387,7 @@ function filterByTag(tag) {
 
     return siteData
         .projects
-        .filter(project => project.display.enabled && project.tags.includes(tag));
+        .filter(project => project.enabled && project.tags.includes(tag));
 
 }
 
