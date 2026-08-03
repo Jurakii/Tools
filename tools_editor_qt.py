@@ -5,7 +5,7 @@ NSC Tools - JSON Editor (PySide6 edition)
 A modern desktop GUI for editing tools.json.
 
 Requires PySide6:
-    pip install PySide6
+    python -m pip install PySide6
 
 Run:
     python3 tools_editor_qt.py
