@@ -170,7 +170,12 @@
                     "icons/CleanSweep.png"
                 ]
             },
-            "links": []
+            "links": [
+                {
+                    "label": "Download",
+                    "url": "scripts/CleanSweep.zip"
+                }
+            ]
         }
     ]
 }

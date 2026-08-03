@@ -649,14 +649,14 @@ class MainWindow(QMainWindow):
         layout.addWidget(self.links_container)
 
         add_link_btn = QPushButton("+ Add link")
-        add_link_btn.clicked.connect(self._add_link_row)
+        add_link_btn.clicked.connect(lambda: self._add_link_row())
         layout.addWidget(add_link_btn, alignment=Qt.AlignLeft)
 
         # ---- Actions ----
         actions = QHBoxLayout()
         apply_btn = QPushButton("Apply changes")
         apply_btn.setObjectName("accentBtn")
-        apply_btn.clicked.connect(self.commit_form_to_data)
+        apply_btn.clicked.connect(lambda: self.commit_form_to_data())
         delete_btn = QPushButton("Delete project")
         delete_btn.setObjectName("dangerBtn")
         delete_btn.clicked.connect(self.delete_selected_project)
