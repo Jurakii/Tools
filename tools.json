@@ -125,7 +125,7 @@
             "links": [
                 {
                     "label": "Download",
-                    "url": "scripts/AssignRGB.mel"
+                    "url": "scripts/AssignRGB.zip"
                 }
             ]
         },
@@ -150,7 +150,7 @@
             "links": [
                 {
                     "label": "Download",
-                    "url": "scripts/AssignRGB.mel"
+                    "url": "scripts/DefaultGrid.zip"
                 }
             ]
         },
