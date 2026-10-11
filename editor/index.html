@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Tools Editor</title>
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com">
+
+    <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+    <link
+        rel="stylesheet"
+        href="editor.css">
+
+</head>
+
+<body>
+
+    <!-- ==========================================
+         OPEN SCREEN
+    =========================================== -->
+
+    <div id="openScreen" class="open-screen">
+
+        <div class="open-inner">
+
+            <div class="brand">
+                <span class="brand-mark brand-mark-lg">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4c-2 0-3 1-3 3v2c0 1.6-.9 3-2 3 1.1 0 2 1.4 2 3v2c0 2 1 3 3 3"/><path d="M15 4c2 0 3 1 3 3v2c0 1.6.9 3 2 3-1.1 0-2 1.4-2 3v2c0 2-1 3-3 3"/></svg>
+                </span>
+                <span class="brand-name brand-name-lg">Tools Editor</span>
+            </div>
+
+            <div>
+                <h1 class="open-title">Open your Tools folder</h1>
+                <p class="open-lede">
+                    Pick the folder that holds tools.json. The editor reads and
+                    writes that file, and checks every path against the files
+                    next to it.
+                </p>
+            </div>
+
+            <div id="dropZone" class="drop-zone">
+                <span class="drop-icon">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                </span>
+                <div class="drop-text">Drop the folder here</div>
+                <button id="chooseFolderBtn" type="button" class="btn btn-primary btn-lg">Choose folder…</button>
+            </div>
+
+            <p id="openError" class="open-error" role="alert" hidden></p>
+
+            <p id="unsupported" class="open-error" hidden>
+                This editor needs Chrome or Edge, because it reads and writes
+                the folder directly.
+            </p>
+
+            <div id="recentSection" class="recent" hidden>
+                <div class="eyebrow">Recent</div>
+                <div id="recentList"></div>
+            </div>
+
+            <p class="open-foot">
+                Nothing is uploaded. Changes go back into tools.json only when
+                you save.
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- ==========================================
+         EDITOR
+    =========================================== -->
+
+    <div id="editorScreen" class="editor" hidden>
+
+        <header class="topbar">
+
+            <div class="brand">
+                <span class="brand-mark">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4c-2 0-3 1-3 3v2c0 1.6-.9 3-2 3 1.1 0 2 1.4 2 3v2c0 2 1 3 3 3"/><path d="M15 4c2 0 3 1 3 3v2c0 1.6.9 3 2 3-1.1 0-2 1.4-2 3v2c0 2-1 3-3 3"/></svg>
+                </span>
+                <span class="brand-name">Tools Editor</span>
+            </div>
+
+            <div class="path-chip">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                <span><span id="folderName"></span>/<span class="path-file">tools.json</span></span>
+            </div>
+
+            <span id="statusPill" class="pill pill-ok"><span class="dot"></span><span id="statusText">No unsaved changes</span></span>
+
+            <span class="spacer"></span>
+
+            <div class="topbar-actions">
+                <button id="reloadBtn" type="button" class="btn">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg>
+                    Reload from disk
+                </button>
+                <button id="siteBtn" type="button" class="btn">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h9"/><path d="M17 7h3"/><circle cx="15" cy="7" r="2"/><path d="M4 17h3"/><path d="M11 17h9"/><circle cx="9" cy="17" r="2"/></svg>
+                    Site settings
+                </button>
+                <button id="reviewBtn" type="button" class="btn btn-primary">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>
+                    Review &amp; save
+                    <kbd>Ctrl S</kbd>
+                </button>
+            </div>
+
+        </header>
+
+        <div class="workspace">
+
+            <!-- ==========================================
+                 PROJECT LIST
+            =========================================== -->
+
+            <aside class="panel sidebar" aria-label="Projects">
+
+                <div class="side-head">
+
+                    <div class="search">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+                        <input id="searchInput" type="search" class="input" aria-label="Search projects" placeholder="Search title, ID or tag">
+                    </div>
+
+                    <div id="catTabs" class="seg seg-full"></div>
+
+                </div>
+
+                <div id="projectList" class="project-list"></div>
+
+                <p class="side-note">Sorted A–Z, the same order the site uses.</p>
+
+                <div class="side-foot">
+                    <button id="newProjectBtn" type="button" class="btn btn-dashed btn-block">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                        New project
+                    </button>
+                </div>
+
+            </aside>
+
+            <!-- ==========================================
+                 PROJECT FORM
+            =========================================== -->
+
+            <main class="form-col">
+
+                <div id="emptyForm" class="panel empty-form" hidden>
+                    <h2>No projects yet</h2>
+                    <p class="hint">Create one with New project in the list.</p>
+                </div>
+
+                <div id="projectForm" class="form-stack">
+
+                    <div class="panel form-head">
+                        <div class="form-head-text">
+                            <div id="crumb" class="crumb"></div>
+                            <h1 id="formHeading" class="form-heading"></h1>
+                        </div>
+                        <button id="enabledSwitch" type="button" role="switch" aria-checked="true" class="switch">
+                            <span class="track"><span class="knob"></span></span>
+                            <span id="enabledLabel">Visible on site</span>
+                        </button>
+                        <button id="duplicateBtn" type="button" class="btn">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg>
+                            Duplicate
+                        </button>
+                        <button id="deleteBtn" type="button" class="btn btn-danger">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M6 7l1 13h10l1-13"/><path d="M9 7V4h6v3"/></svg>
+                            Delete
+                        </button>
+                    </div>
+
+                    <section class="panel">
+                        <h2>Details</h2>
+                        <p class="hint">What the card shows, and where it lives.</p>
+                        <div class="grid-fields">
+                            <label class="field">
+                                Title
+                                <input id="titleInput" type="text" class="input">
+                            </label>
+                            <label class="field">
+                                ID
+                                <input id="idInput" type="text" class="input mono" spellcheck="false">
+                                <span id="idHint" class="help"></span>
+                            </label>
+                            <label class="field">
+                                Category
+                                <select id="categorySelect" class="input"></select>
+                            </label>
+                            <label class="field">
+                                Version
+                                <input id="versionInput" type="text" class="input mono" spellcheck="false">
+                            </label>
+                            <label class="field field-wide">
+                                Description
+                                <textarea id="descInput" rows="3" class="input"></textarea>
+                                <span id="descHint" class="help"></span>
+                            </label>
+                        </div>
+                    </section>
+
+                    <section class="panel">
+                        <h2>Tags</h2>
+                        <p class="hint">Stored for search and filtering. Press Enter to add.</p>
+                        <div class="tag-box">
+                            <span id="tagList" class="tag-list"></span>
+                            <input id="tagInput" type="text" class="tag-input" aria-label="Add a tag" placeholder="Add tag…">
+                        </div>
+                        <div id="tagSuggest" class="suggest"></div>
+                    </section>
+
+                    <section class="panel">
+                        <div class="section-head">
+                            <div>
+                                <h2>Media</h2>
+                                <p id="mediaHint" class="hint"></p>
+                            </div>
+                            <div class="seg" role="group" aria-label="Media type">
+                                <button id="mediaIconsBtn" type="button" aria-pressed="true">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="12" height="12" rx="2"/><rect x="9" y="9" width="12" height="12" rx="2"/></svg>
+                                    Icons
+                                </button>
+                                <button id="mediaImageBtn" type="button" aria-pressed="false">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.5"/><path d="M21 16l-5-5-8 8"/></svg>
+                                    Image
+                                </button>
+                            </div>
+                        </div>
+                        <div id="fileList" class="file-list"></div>
+                        <div class="actions">
+                            <button id="pickerBtn" type="button" class="btn" aria-expanded="false" aria-controls="picker">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                                <span id="pickerBtnLabel">Pick from icons/</span>
+                            </button>
+                            <button id="importBtn" type="button" class="btn">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V4"/><path d="M7 9l5-5 5 5"/><path d="M5 20h14"/></svg>
+                                Import file…
+                            </button>
+                        </div>
+                        <div id="picker" class="picker" hidden>
+                            <div class="picker-head">
+                                <span id="pickerTitle"></span>
+                                <button id="pickerDoneBtn" type="button" class="link-btn">Done</button>
+                            </div>
+                            <div id="pickerGrid" class="picker-grid"></div>
+                        </div>
+                    </section>
+
+                    <section class="panel">
+                        <h2>Links</h2>
+                        <p class="hint">Web URLs open in a new tab. Paths like scripts/x.zip download. Empty or # links are hidden.</p>
+                        <div id="linkList" class="link-list"></div>
+                        <button id="addLinkBtn" type="button" class="btn btn-dashed add-link">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                            Add link
+                        </button>
+                    </section>
+
+                </div>
+
+            </main>
+
+            <!-- ==========================================
+                 PREVIEW + CHECKS
+            =========================================== -->
+
+            <div class="side-col">
+
+                <section class="panel panel-tight">
+                    <div class="preview-head">
+                        <div class="seg" role="group" aria-label="Preview mode">
+                            <button id="tabPreviewBtn" type="button" aria-pressed="true">Preview</button>
+                            <button id="tabJsonBtn" type="button" aria-pressed="false">JSON</button>
+                        </div>
+                        <span id="previewWhere" class="preview-where"></span>
+                    </div>
+                    <div id="previewPane">
+                        <div id="hiddenBanner" class="banner" hidden>
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l18 18"/><path d="M10.6 5.1A9.8 9.8 0 0 1 12 5c5 0 9 5 9 7 0 .9-.8 2.3-2.2 3.6"/><path d="M6.6 6.6C4.4 8 3 10.5 3 12c0 2 4 7 9 7 1.6 0 3.1-.5 4.4-1.3"/></svg>
+                            Hidden. The site skips this card until it is visible.
+                        </div>
+                        <div id="previewSurface" class="surface">
+                            <div id="previewHost"></div>
+                        </div>
+                        <p id="cssNote" class="help" hidden>styles.css wasn't found next to tools.json, so the preview is unstyled.</p>
+                    </div>
+                    <pre id="jsonPane" class="code-block" hidden></pre>
+                </section>
+
+                <section class="panel panel-tight">
+                    <div class="checks-head">
+                        <h2>Checks</h2>
+                        <div class="counts">
+                            <span id="errCount" class="count count-err"></span>
+                            <span id="warnCount" class="count count-warn"></span>
+                        </div>
+                    </div>
+                    <p class="hint">Paths are checked against the folder on every edit.</p>
+                    <div id="issueList" class="issue-list"></div>
+                    <div class="unused">
+                        <h3>Not used by any project</h3>
+                        <p class="hint">Files in the asset folders that tools.json never points to.</p>
+                        <div id="unusedList" class="unused-list"></div>
+                    </div>
+                </section>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ==========================================
+         SITE SETTINGS DIALOG
+    =========================================== -->
+
+    <dialog id="siteDialog" class="dialog" aria-labelledby="siteDialogTitle">
+
+        <div class="dialog-shell">
+
+            <div class="dialog-head">
+                <div>
+                    <h1 id="siteDialogTitle">Site settings</h1>
+                    <p class="hint">The site block at the top of tools.json.</p>
+                </div>
+                <button type="button" class="btn btn-icon btn-icon-lg" data-close aria-label="Close">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12"/><path d="M18 6L6 18"/></svg>
+                </button>
+            </div>
+
+            <div class="dialog-body">
+
+                <section class="dialog-section">
+                    <h2>Header &amp; footer</h2>
+                    <label class="field">
+                        Site title
+                        <input id="siteTitleInput" type="text" class="input">
+                    </label>
+                    <label class="field">
+                        Subtitle
+                        <input id="siteSubtitleInput" type="text" class="input">
+                    </label>
+                    <label class="field">
+                        Footer
+                        <input id="siteFooterInput" type="text" class="input">
+                    </label>
+                </section>
+
+                <section class="dialog-section">
+                    <div>
+                        <h2>Categories</h2>
+                        <p class="hint">Each one is a tab on the site, in this order. The first tab opens by default.</p>
+                    </div>
+                    <div id="catList" class="cat-list"></div>
+                    <div class="cat-add">
+                        <input id="newCatInput" type="text" class="input" aria-label="New category name" placeholder="New category, e.g. Plugins">
+                        <button id="addCatBtn" type="button" class="btn">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                            Add
+                        </button>
+                    </div>
+                    <p class="hint">Delete unlocks once no project uses the category. Renaming a category moves its projects with it.</p>
+                    <p id="siteError" class="form-error" role="alert" hidden></p>
+                </section>
+
+                <section class="dialog-section">
+                    <h2>Header preview</h2>
+                    <div class="surface">
+                        <div id="sitePreviewHost"></div>
+                    </div>
+                </section>
+
+            </div>
+
+            <div class="dialog-foot">
+                <span id="schemaLabel" class="foot-note mono"></span>
+                <button type="button" class="btn" data-close>Cancel</button>
+                <button id="siteApplyBtn" type="button" class="btn btn-primary">Apply</button>
+            </div>
+
+        </div>
+
+    </dialog>
+
+    <!-- ==========================================
+         REVIEW & SAVE DIALOG
+    =========================================== -->
+
+    <dialog id="reviewDialog" class="dialog dialog-wide" aria-labelledby="reviewDialogTitle">
+
+        <div class="dialog-shell">
+
+            <div class="dialog-head">
+                <div>
+                    <h1 id="reviewDialogTitle">Review changes</h1>
+                    <p class="hint">Everything below is written to <span class="mono strong">tools.json</span> when you save.</p>
+                </div>
+                <button type="button" class="btn btn-icon btn-icon-lg" data-close aria-label="Close">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12"/><path d="M18 6L6 18"/></svg>
+                </button>
+            </div>
+
+            <div class="dialog-body">
+
+                <div id="conflictBox" class="callout callout-err" role="alert" hidden>
+                    <div>
+                        <strong>tools.json changed on disk since it was loaded.</strong>
+                        Something else edited it, maybe a git pull. Reloading drops your
+                        edits here. Overwriting replaces what is on disk.
+                    </div>
+                    <div class="callout-actions">
+                        <button id="conflictReloadBtn" type="button" class="btn">Reload from disk</button>
+                        <button id="conflictOverwriteBtn" type="button" class="btn btn-danger">Overwrite</button>
+                    </div>
+                </div>
+
+                <div id="reviewSummary" class="summary"></div>
+
+                <section class="dialog-section">
+                    <div class="section-head">
+                        <h2>Changes</h2>
+                        <div class="seg" role="group" aria-label="Change view">
+                            <button id="viewFieldsBtn" type="button" aria-pressed="true">By field</button>
+                            <button id="viewRawBtn" type="button" aria-pressed="false">Raw diff</button>
+                        </div>
+                    </div>
+                    <div id="fieldChanges" class="change-groups"></div>
+                    <div id="rawDiff" class="diff" hidden></div>
+                </section>
+
+                <section class="dialog-section">
+                    <h2>Still open after saving</h2>
+                    <div id="openIssues" class="issue-list"></div>
+                </section>
+
+                <section class="dialog-section">
+                    <h2>Write options</h2>
+                    <p id="formatNote" class="hint"></p>
+                    <p id="reformatNote" class="hint" hidden>
+                        Some lines in the file aren't in the standard layout (for example
+                        one-line arrays). Saving rewrites them, so they show up in the raw diff.
+                    </p>
+                    <label class="check">
+                        <input id="backupCheck" type="checkbox">
+                        <span>
+                            <span class="check-title">Write tools.json.bak before saving</span>
+                            <span class="hint">Off by default. If the folder is a git repo, history already keeps old versions.</span>
+                        </span>
+                    </label>
+                </section>
+
+            </div>
+
+            <div class="dialog-foot">
+                <span id="reviewFootNote" class="foot-note"></span>
+                <button type="button" class="btn" data-close>Back to editing</button>
+                <button id="saveBtn" type="button" class="btn btn-primary">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>
+                    Save to tools.json
+                </button>
+            </div>
+
+        </div>
+
+    </dialog>
+
+    <datalist id="localFiles"></datalist>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <script src="editor.js"></script>
+
+</body>
+
+</html>
