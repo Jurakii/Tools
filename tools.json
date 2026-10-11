@@ -26,7 +26,7 @@
                 "files": ["icons/EasyTool.png"]
             },
             "links": [
-                { "label": "Download", "url": "https://github.com/Jurakii/EasyTool/releases/download/v0.9.0/EasyTool-0.9.0.zip" },
+                { "label": "Download", "url": "https://github.com/Jurakii/EasyTool/releases/download/v0.9.1/EasyTool-0.9.1.zip" },
                 { "label": "Github", "url": "https://github.com/Jurakii/EasyTool/releases" }
             ]
         },
