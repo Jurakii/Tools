@@ -185,7 +185,7 @@
                 "Maya",
                 "MEL"
             ],
-            "enabled": false,
+            "enabled": true,
             "media": {
                 "type": "icons",
                 "files": [
