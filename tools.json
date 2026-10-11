@@ -23,11 +23,19 @@
             "enabled": true,
             "media": {
                 "type": "icons",
-                "files": ["icons/EasyTool.png"]
+                "files": [
+                    "icons/EasyTool.png"
+                ]
             },
             "links": [
-                { "label": "Download", "url": "https://github.com/Jurakii/EasyTool/releases/download/v0.9.1/EasyTool-0.9.1.zip" },
-                { "label": "Github", "url": "https://github.com/Jurakii/EasyTool/releases" }
+                {
+                    "label": "Download",
+                    "url": "https://github.com/Jurakii/EasyTool/releases/download/v0.9.1/EasyTool-0.9.1.zip"
+                },
+                {
+                    "label": "Github",
+                    "url": "https://github.com/Jurakii/EasyTool/releases"
+                }
             ]
         },
         {
@@ -52,7 +60,6 @@
                 }
             ]
         },
-
         {
             "id": "quick-dir",
             "category": "Tools",
@@ -196,6 +203,30 @@
                 {
                     "label": "Download",
                     "url": "scripts/CleanSweep.zip"
+                }
+            ]
+        },
+        {
+            "id": "build",
+            "category": "Scripts",
+            "title": "Build",
+            "version": "1.0",
+            "desc": "Replicates Blender's \"Build\" modifier in Maya",
+            "tags": [
+                "Maya",
+                "Python"
+            ],
+            "enabled": true,
+            "media": {
+                "type": "icons",
+                "files": [
+                    "icons/buildModifier.png"
+                ]
+            },
+            "links": [
+                {
+                    "label": "Download",
+                    "url": "scripts/Build.zip"
                 }
             ]
         }
