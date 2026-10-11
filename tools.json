@@ -14,7 +14,7 @@
             "id": "easytool",
             "category": "Tools",
             "title": "Easy Tool",
-            "version": "0.9.0",
+            "version": "0.9.1",
             "desc": "Install and update Maya shelf tools from a docked panel",
             "tags": [
                 "Maya",
@@ -26,7 +26,7 @@
                 "files": ["icons/EasyTool.png"]
             },
             "links": [
-                { "label": "Download", "url": "https://github.com/Jurakii/EasyTool/releases/download/v0.9.0/EasyTool-0.9.0.zip" },
+                { "label": "Download", "url": "https://github.com/Jurakii/EasyTool/releases/download/v0.9.1/EasyTool-0.9.1.zip" },
                 { "label": "Github", "url": "https://github.com/Jurakii/EasyTool/releases" }
             ]
         },
