@@ -60,7 +60,3 @@ htmlcov/
 # *.rcc
 *.lnk
 
-# ==========================================
-# Local tools.json editor (private, never published)
-# ==========================================
-#editor/
