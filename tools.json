@@ -11,6 +11,26 @@
     },
     "projects": [
         {
+            "id": "easytool",
+            "category": "Tools",
+            "title": "Easy Tool",
+            "version": "0.9.0",
+            "desc": "Install and update Maya shelf tools from a docked panel",
+            "tags": [
+                "Maya",
+                "Utility"
+            ],
+            "enabled": true,
+            "media": {
+                "type": "icons",
+                "files": ["icons/EasyTool.png"]
+            },
+            "links": [
+                { "label": "Download", "url": "https://github.com/Jurakii/EasyTool/releases/download/v0.9.0/EasyTool-0.9.0.zip" },
+                { "label": "Github", "url": "https://github.com/Jurakii/EasyTool" }
+            ]
+        },
+        {
             "id": "batch-rename",
             "category": "Tools",
             "title": "Batch Rename",
@@ -32,6 +52,7 @@
                 }
             ]
         },
+
         {
             "id": "quick-dir",
             "category": "Tools",
