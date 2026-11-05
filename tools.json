@@ -48,7 +48,7 @@
                 "Windows",
                 "Utility"
             ],
-            "enabled": true,
+            "enabled": false,
             "media": {
                 "type": "icons",
                 "files": []
@@ -94,7 +94,7 @@
                 "Windows",
                 "Utility"
             ],
-            "enabled": true,
+            "enabled": false,
             "media": {
                 "type": "image",
                 "files": []
@@ -227,6 +227,30 @@
                 {
                     "label": "Download",
                     "url": "scripts/Build.zip"
+                }
+            ]
+        },
+        {
+            "id": "expression-bridge",
+            "category": "Tools",
+            "title": "Expression Bridge",
+            "version": "1.0",
+            "desc": "Edit Maya expressions in VS Code. Saving updates Maya, edits in Maya appear in VS Code, and Maya's errors show in the Problems panel.",
+            "tags": [
+                "Maya",
+                "MEL"
+            ],
+            "enabled": true,
+            "media": {
+                "type": "icons",
+                "files": [
+                    "icons/icon.svg"
+                ]
+            },
+            "links": [
+                {
+                    "label": "Download",
+                    "url": "https://jurakii.github.io/ExpressionBridge/"
                 }
             ]
         }
