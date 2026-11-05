@@ -317,7 +317,7 @@ nav {
 
     object-fit: cover;
 
-    border-radius: 10px;
+    border-radius: 23%; /* matches Expression Bridge icon.svg corner (235.52 / 1024) */
 
     border: 1px solid #444;
 
