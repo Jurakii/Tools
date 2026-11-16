@@ -207,6 +207,30 @@
             ]
         },
         {
+            "id": "ue-export",
+            "category": "Scripts",
+            "title": "UE Export",
+            "version": "1.0",
+            "desc": "Export options for Maya to Unreal Engine",
+            "tags": [
+                "Maya",
+                "Unreal"
+            ],
+            "enabled": true,
+            "media": {
+                "type": "icons",
+                "files": [
+                    "icons/UEExport.png"
+                ]
+            },
+            "links": [
+                {
+                    "label": "Download",
+                    "url": "scripts/UEExport.zip"
+                }
+            ]
+        },
+        {
             "id": "build",
             "category": "Scripts",
             "title": "Build",
